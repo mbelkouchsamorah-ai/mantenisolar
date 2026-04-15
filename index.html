@@ -1,4 +1,5 @@
-<!DOCTYPE html> 
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -155,6 +156,8 @@
     .calc-result-label { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
     .calc-result-price { font-family: "Playfair Display", serif; font-size: 3.2rem; font-weight: 900; color: var(--blue); }
     .calc-result-breakdown { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+    .btn-stripe { background: #635BFF; color: white; padding: 16px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+    .btn-stripe:hover { background: #4B44CC; transform: translateY(-2px); }
     .btn-bizum { background: var(--green); color: white; padding: 16px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
     .btn-bizum:hover { background: #24701A; transform: translateY(-2px); }
 
@@ -301,7 +304,6 @@
       <p>Limpieza profesional y mantenimiento preventivo de instalaciones fotovoltaicas en la Comunidad de Madrid. Más producción, más ahorro.</p>
       <div class="hero-btns">
         <a href="#calculadora" class="btn-primary">☀ Calcular mi precio</a>
-        <a href="https://wa.me/34621055475?text=Hola,%20me%20interesa%20información%20sobre%20vuestros%20servicios%20de%20mantenimiento%20solar" class="btn-secondary" target="_blank">💬 WhatsApp directo</a>
       </div>
       <div class="hero-stats">
         <div class="stat-item"><div class="stat-number">+30%</div><div class="stat-label">Recuperación de eficiencia</div></div>
@@ -394,9 +396,9 @@
 <!-- CALCULADORA -->
 <section id="calculadora">
   <div class="container">
-    <span class="section-label">Calcula tu precio</span>
-    <h2 class="section-title" style="color:white;">Sin sorpresas, precio exacto</h2>
-    <p class="section-sub">Selecciona el servicio e indica cuántos paneles tienes. Paga con Bizum y listo — te confirmamos fecha por WhatsApp.</p>
+    <span class="section-label">Sin sorpresas, precio exacto</span>
+    <h2 class="section-title" style="color:white;">Calcula tu precio</h2>
+    <p class="section-sub">Selecciona el servicio e indica cuántos paneles tienes. Paga de forma segura con tarjeta — te confirmamos fecha al instante.</p>
     <div class="calc-card">
       <div class="calc-step">
         <label>1. Selecciona el servicio</label>
@@ -414,9 +416,9 @@
       <div class="calc-step">
         <label>2. ¿Cuántos paneles tiene tu instalación?</label>
         <div class="panels-input">
-          <button onclick="changePanel(-1)" aria-label="Reducir paneles">−</button>
+          <button type="button" onclick="changePanel(-1)" aria-label="Reducir paneles">−</button>
           <input type="number" id="numPanels" value="10" min="1" max="200" oninput="updateCalc()" />
-          <button onclick="changePanel(1)" aria-label="Aumentar paneles">+</button>
+          <button type="button" onclick="changePanel(1)" aria-label="Aumentar paneles">+</button>
         </div>
         <p class="panels-hint">Precio base para 10 paneles · +10€ por cada panel adicional</p>
       </div>
@@ -426,7 +428,7 @@
           <div class="calc-result-price" id="calcPrice">200€</div>
           <div class="calc-result-breakdown" id="calcBreakdown">Limpieza Puntual · 10 paneles</div>
         </div>
-        <button class="btn-bizum" onclick="openBizumModal()">💳 Pagar con Bizum</button>
+        <button type="button" class="btn-stripe" onclick="openStripeModal()">💳 Pagar ahora</button>
       </div>
     </div>
   </div>
@@ -498,10 +500,7 @@
           <div class="contacto-item"><div class="contacto-item-icon">✉️</div><div><strong>Email</strong><a href="/cdn-cgi/l/email-protection#96fff8f0f9d6fbf7f8e2f3f8ffe5f9faf7e4b8f5f9fb"><span class="__cf_email__" data-cfemail="81e8efe7eec1ece0eff5e4efe8f2eeede0f3afe2eeec">[email&#160;protected]</span></a></div></div>
           <div class="contacto-item"><div class="contacto-item-icon">🕐</div><div><strong>Horario</strong><span>Lunes a Viernes · 8:00 – 19:00</span></div></div>
         </div>
-        <div style="margin-top:32px; padding:24px; background:rgba(75,181,212,0.1); border:1.5px solid var(--blue); border-radius:14px;">
-          <p style="color:rgba(255,255,255,0.8); font-size:0.9rem; margin-bottom:14px;">💳 <strong style="color:white;">Pago con Bizum disponible</strong><br>Paga el 100% antes de la visita con Bizum al <strong style="color:var(--blue);">621 055 475</strong> y confirmamos tu cita al instante.</p>
-          <a href="#calculadora" style="color:var(--blue); font-weight:600; font-size:0.9rem;">Calcular mi precio →</a>
-        </div>
+
       </div>
       <div class="form-card">
         <h3 style="color:white; margin-bottom:24px;">Solicitar información</h3>
@@ -539,7 +538,7 @@
 </footer>
 
 <!-- WHATSAPP FAB -->
-<a href="https://wa.me/34621055475?text=Hola,%20me%20interesa%20información%20sobre%20vuestros%20servicios" target="_blank" class="whatsapp-fab" aria-label="WhatsApp">💬</a>
+
 
 
 <!-- MODAL MALLAS ANTIAVES -->
@@ -559,9 +558,9 @@
     <div class="form-group" style="margin-bottom:14px;">
       <label style="display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:6px;">Número de paneles solares *</label>
       <div style="display:flex;align-items:center;gap:12px;">
-        <button onclick="changeMallas(-1)" style="width:40px;height:40px;border-radius:50%;border:2px solid var(--navy);background:transparent;color:var(--navy);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
+        <button type="button" onclick="changeMallas(-1)" style="width:40px;height:40px;border-radius:50%;border:2px solid var(--navy);background:transparent;color:var(--navy);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
         <input type="number" id="mallasPaneles" value="10" min="1" max="500" style="width:70px;text-align:center;border:1.5px solid #d1d5db;border-radius:10px;padding:9px;font-size:1.1rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;" />
-        <button onclick="changeMallas(1)" style="width:40px;height:40px;border-radius:50%;border:2px solid var(--navy);background:transparent;color:var(--navy);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+        <button type="button" onclick="changeMallas(1)" style="width:40px;height:40px;border-radius:50%;border:2px solid var(--navy);background:transparent;color:var(--navy);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
         <span style="font-size:.85rem;color:var(--muted);">paneles</span>
       </div>
     </div>
@@ -578,33 +577,36 @@
   </div>
 </div>
 
-<!-- MODAL BIZUM -->
-<div class="modal-overlay" id="bizumModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeBizumModal()">×</button>
-    <h3>💳 Pagar con Bizum</h3>
-    <p class="modal-sub">Sigue estos 3 pasos para confirmar tu reserva al instante.</p>
-    <div class="bizum-highlight" id="bizumSummary">
-      <div class="bh-label">Importe a pagar</div>
-      <div class="bh-value" id="modalPrice">200€</div>
-      <div class="bh-phone">📱 Bizum al: <strong>621 055 475</strong> <button class="copy-btn" onclick="copyPhone()">Copiar</button></div>
-      <div class="bh-concepto" id="modalConcepto">Concepto: LIMPIEZA PUNTUAL · Tu nombre</div>
+<!-- MODAL STRIPE -->
+<div class="modal-overlay" id="stripeModal" style="display:none;">
+  <div class="modal" style="max-width:500px;">
+    <button type="button" class="modal-close" onclick="closeStripeModal()">×</button>
+    <h3 style="margin-bottom:6px;">💳 Pago seguro</h3>
+    <p class="modal-sub">Paga de forma segura con tarjeta. Tu reserva queda confirmada al instante.</p>
+
+    <div style="background:#F4F3FF;border:1.5px solid #635BFF;border-radius:12px;padding:20px 24px;margin-bottom:24px;">
+      <div style="font-size:.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Total a pagar</div>
+      <div id="stripePrice" style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:#635BFF;">200€</div>
+      <div id="stripeBreakdown" style="font-size:.8rem;color:var(--muted);margin-top:4px;">Limpieza Puntual · 10 paneles</div>
     </div>
-    <div class="bizum-steps">
-      <div class="bizum-step">
-        <div class="bizum-step-num">1</div>
-        <div class="bizum-step-content"><strong>Abre tu app bancaria y envía el Bizum</strong><p>Envía exactamente <span id="stepPrice" style="font-weight:700;color:var(--navy)">200€</span> al número <strong>621 055 475</strong>. Escribe como concepto tu nombre y el servicio.</p></div>
-      </div>
-      <div class="bizum-step">
-        <div class="bizum-step-num">2</div>
-        <div class="bizum-step-content"><strong>Manda el comprobante por WhatsApp</strong><p>Haz una captura de pantalla del Bizum enviado y mándanosla por WhatsApp al mismo número.</p></div>
-      </div>
-      <div class="bizum-step">
-        <div class="bizum-step-num">3</div>
-        <div class="bizum-step-content"><strong>Te confirmamos fecha y hora</strong><p>En cuanto recibamos el pago, te confirmamos tu cita por WhatsApp. ¡Todo listo!</p></div>
-      </div>
+
+    <div style="background:var(--cream);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:.85rem;color:var(--muted);">
+      🔒 Pago 100% seguro procesado por <strong style="color:#635BFF;">Stripe</strong>. Aceptamos todas las tarjetas de crédito y débito.
     </div>
-    <button class="btn-whatsapp" id="modalWaBtn" onclick="openWhatsAppAfterBizum()">💬 Enviar comprobante por WhatsApp</button>
+
+    <div id="stripeBtnWrapper">
+      <!-- Puntual base 10 paneles -->
+      <a id="stripeLinkPuntual" href="STRIPE_LINK_PUNTUAL" target="_blank" style="display:none;">
+        <button type="button" style="width:100%;background:#635BFF;color:white;padding:15px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:1rem;font-family:'Outfit',sans-serif;margin-bottom:12px;">
+          💳 Pagar <span id="stripeBtnPrice">200€</span> ahora
+        </button>
+      </a>
+      <!-- Extra panels via WhatsApp -->
+      <button type="button" id="stripeWaBtn" onclick="stripeViaWhatsApp()" style="width:100%;background:#25D366;color:white;padding:15px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:1rem;font-family:'Outfit',sans-serif;display:none;">
+        💬 Recibir enlace de pago por WhatsApp
+      </button>
+    </div>
+    <p style="font-size:.75rem;color:var(--muted);text-align:center;margin-top:12px;">Al completar el pago recibirás confirmación y te contactaremos para la fecha.</p>
   </div>
 </div>
 
@@ -638,30 +640,52 @@
     if (extra > 0) breakdown += ' (+' + extra + '€ adicionales)';
     document.getElementById('calcBreakdown').textContent = breakdown;
   }
-  function openBizumModal() {
-    const { total, panels } = calcTotal();
-    document.getElementById('modalPrice').textContent = total + '€';
-    document.getElementById('stepPrice').textContent = total + '€';
-    document.getElementById('modalConcepto').textContent = 'Concepto: ' + labels[currentService].toUpperCase() + ' · Tu nombre';
-    const waText = encodeURIComponent('¡Hola! Os envío el comprobante de pago por Bizum.\n\n• Servicio: ' + labels[currentService] + '\n• Paneles: ' + panels + '\n• Importe: ' + total + '€\n\nAdjunto captura del Bizum. Por favor, confirmadme la fecha y hora. ¡Gracias!');
-    document.getElementById('modalWaBtn').setAttribute('data-wa', 'https://wa.me/34621055475?text=' + waText);
-    document.getElementById('bizumModal').classList.add('open');
+  // ── STRIPE CONFIG ──────────────────────────────────────
+  // Cuando tengas tu cuenta de Stripe, pega los Payment Links aquí:
+  const STRIPE_LINKS = {
+    puntual:   'STRIPE_LINK_PUNTUAL',   // ej: https://buy.stripe.com/xxxxx
+    semestral: 'STRIPE_LINK_SEMESTRAL'  // ej: https://buy.stripe.com/yyyyy
+  };
+  // ────────────────────────────────────────────────────────
+
+  function openStripeModal() {
+    const { total, panels, extra } = calcTotal();
+    document.getElementById('stripePrice').textContent = total + '€';
+    document.getElementById('stripeBreakdown').textContent = labels[currentService] + ' · ' + panels + ' panel' + (panels !== 1 ? 'es' : '');
+    document.getElementById('stripeBtnPrice').textContent = total + '€';
+
+    const link = STRIPE_LINKS[currentService];
+    const hasRealLink = link && !link.includes('STRIPE_LINK');
+
+    const linkBtn = document.getElementById('stripeLinkPuntual');
+    const waBtn   = document.getElementById('stripeWaBtn');
+
+    if (hasRealLink) {
+      linkBtn.href = link;
+      linkBtn.style.display = 'block';
+      waBtn.style.display = 'none';
+    } else {
+      linkBtn.style.display = 'none';
+      waBtn.style.display = 'block';
+    }
+
+    document.getElementById('stripeModal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
-  function closeBizumModal() {
-    document.getElementById('bizumModal').classList.remove('open');
+  function closeStripeModal() {
+    document.getElementById('stripeModal').style.display = 'none';
     document.body.style.overflow = '';
   }
-  function openWhatsAppAfterBizum() {
-    const url = document.getElementById('modalWaBtn').getAttribute('data-wa');
-    window.open(url, '_blank');
-  }
-  function copyPhone() {
-    navigator.clipboard.writeText('621055475').then(() => {
-      const btn = document.querySelector('.copy-btn');
-      btn.textContent = '¡Copiado!';
-      setTimeout(() => btn.textContent = 'Copiar', 2000);
-    });
+  function stripeViaWhatsApp() {
+    const { total, panels } = calcTotal();
+    const text = encodeURIComponent(
+      '¡Hola ManteniSolar! Quiero reservar el servicio:\n\n' +
+      '• Servicio: ' + labels[currentService] + '\n' +
+      '• Paneles: ' + panels + '\n' +
+      '• Total: ' + total + '€\n\n' +
+      'Por favor, enviadme el enlace de pago Stripe. ¡Gracias!'
+    );
+    window.open('https://wa.me/34621055475?text=' + text, '_blank');
   }
   function sendWhatsApp() {
     const nombre = document.getElementById('formNombre').value.trim();
@@ -678,4 +702,160 @@
     window.open('https://wa.me/34621055475?text=' + encodeURIComponent(text), '_blank');
   }
   function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
-  document.getElementById('bizumModal').addEventListener
+  ('click', function(e) { if (e.target === this) closeMallasModal(); });
+  document.getElementById('stripeModal').addEventListener('click', function(e) { if (e.target === this) closeStripeModal(); });
+  updateCalc();
+</script>
+
+<!-- ═══════════ WHATSAPP CHAT WIDGET ═══════════ -->
+<style>
+  .wa-widget { position: fixed; bottom: 28px; right: 28px; z-index: 999; font-family: 'Outfit', sans-serif; }
+  .wa-bubble { width: 58px; height: 58px; border-radius: 50%; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 20px rgba(37,211,102,0.45); transition: transform 0.2s; animation: waPulse 2.5s infinite; border: none; position: relative; }
+  .wa-bubble:hover { transform: scale(1.1); }
+  @keyframes waPulse { 0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); } 50% { box-shadow: 0 4px 32px rgba(37,211,102,0.75); } }
+  .wa-chat { position: absolute; bottom: 72px; right: 0; width: 320px; background: white; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.18); overflow: hidden; display: none; animation: chatSlide 0.25s ease; }
+  .wa-chat.open { display: block; }
+  @keyframes chatSlide { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .wa-chat-header { background: #25D366; padding: 16px 18px; display: flex; align-items: center; gap: 12px; }
+  .wa-avatar { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .wa-info strong { display: block; color: white; font-size: 0.95rem; }
+  .wa-info span { color: rgba(255,255,255,0.85); font-size: 0.78rem; }
+  .wa-close { margin-left: auto; background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; }
+  .wa-messages { padding: 16px; background: #ECE5DD; min-height: 140px; display: flex; flex-direction: column; gap: 10px; max-height: 220px; overflow-y: auto; }
+  .wa-msg { background: white; border-radius: 0 10px 10px 10px; padding: 10px 14px; font-size: 0.85rem; color: #1a1a1a; max-width: 85%; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .wa-msg .wa-time { font-size: 0.68rem; color: #999; margin-top: 4px; text-align: right; }
+  .wa-quick-replies { padding: 12px 16px 16px; background: #ECE5DD; display: flex; flex-direction: column; gap: 8px; }
+  .wa-qr { background: white; border: 1.5px solid #25D366; color: #128C7E; border-radius: 20px; padding: 8px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s; font-family: 'Outfit', sans-serif; width: 100%; }
+  .wa-qr:hover { background: #25D366; color: white; }
+  .wa-chat-footer { padding: 10px 14px; background: #F0F0F0; display: flex; align-items: center; gap: 8px; border-top: 1px solid #ddd; }
+  .wa-chat-footer input { flex: 1; border: none; background: white; border-radius: 20px; padding: 8px 14px; font-size: 0.85rem; outline: none; font-family: 'Outfit', sans-serif; }
+  .wa-chat-footer .wa-send { width: 36px; height: 36px; border-radius: 50%; background: #25D366; border: none; color: white; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .wa-notif { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; border-radius: 50%; background: #FF3B30; color: white; font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+</style>
+
+<div class="wa-widget">
+  <div class="wa-chat" id="waChat">
+    <div class="wa-chat-header">
+      <div class="wa-avatar">☀</div>
+      <div class="wa-info"><strong>ManteniSolar</strong><span>🟢 Respondemos en minutos</span></div>
+      <button type="button" class="wa-close" onclick="toggleWaChat()">×</button>
+    </div>
+    <div class="wa-messages" id="waMessages">
+      <div class="wa-msg">¡Hola! 👋 Soy el asistente de <strong>ManteniSolar</strong>. ¿En qué puedo ayudarte?<div class="wa-time">ahora</div></div>
+    </div>
+    <div class="wa-quick-replies" id="waQR">
+      <button type="button" class="wa-qr" onclick="waOption('limpieza')">🧹 Solicitar limpieza de paneles</button>
+      <button type="button" class="wa-qr" onclick="waOption('precio')">💶 Consultar precio</button>
+      <button type="button" class="wa-qr" onclick="waOption('mallas')">🦅 Presupuesto mallas antiaves</button>
+      <button type="button" class="wa-qr" onclick="waOption('otro')">💬 Otra consulta</button>
+    </div>
+    <div class="wa-chat-footer" id="waFooter" style="display:none;">
+      <input type="text" id="waInput" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter') waSend()" />
+      <button type="button" class="wa-send" onclick="waSend()">➤</button>
+    </div>
+  </div>
+  <button type="button" class="wa-bubble" onclick="toggleWaChat()" aria-label="Chat">
+    <span id="waBubbleIcon">💬</span>
+    <span class="wa-notif" id="waNotif">1</span>
+  </button>
+</div>
+
+<script>
+  var waChatOpen = false;
+  function toggleWaChat() {
+    waChatOpen = !waChatOpen;
+    var chat = document.getElementById('waChat');
+    var notif = document.getElementById('waNotif');
+    var icon = document.getElementById('waBubbleIcon');
+    if (waChatOpen) { chat.classList.add('open'); notif.style.display='none'; icon.textContent='✕'; }
+    else { chat.classList.remove('open'); icon.textContent='💬'; }
+  }
+  var waCurrentOpt = '';
+
+  var waLabels = {
+    limpieza: '🧹 Solicitar limpieza de paneles',
+    precio:   '💶 Consultar precio',
+    mallas:   '🦅 Presupuesto mallas antiaves',
+    otro:     '💬 Otra consulta'
+  };
+
+  function waOption(opt) {
+    waCurrentOpt = opt;
+    var msgs = document.getElementById('waMessages');
+    var qr   = document.getElementById('waQR');
+
+    // Show user selection bubble
+    msgs.innerHTML += '<div class="wa-msg" style="background:#DCF8C6;align-self:flex-end;border-radius:10px 0 10px 10px;margin-left:auto;">' + waLabels[opt] + '<div class="wa-time">ahora</div></div>';
+
+    setTimeout(function() {
+      // Show the info form inline in chat
+      var formHtml = '<div class="wa-msg" style="padding:14px 16px;">' +
+        '<p style="margin-bottom:10px;font-size:.85rem;">Para atenderte mejor, necesito algunos datos:</p>' +
+        '<input id="waNombre" type="text" placeholder="Nombre completo *" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />' +
+        '<input id="waTelefono" type="tel" placeholder="Teléfono *" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />' +
+        '<input id="waEmail" type="email" placeholder="Email (opcional)" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />';
+
+      if (opt === 'limpieza' || opt === 'precio') {
+        formHtml += '<input id="waPaneles" type="number" placeholder="Nº de paneles solares *" min="1" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />';
+      }
+      if (opt === 'mallas') {
+        formHtml += '<input id="waPanelesMallas" type="number" placeholder="Nº de paneles solares *" min="1" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />' +
+          '<input id="waZona" type="text" placeholder="Municipio / Zona *" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />';
+      }
+
+      formHtml += '<textarea id="waConsulta" placeholder="' + (opt === 'otro' ? 'Tu consulta *' : 'Información adicional (opcional)') + '" rows="2" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:10px;font-family:Outfit,sans-serif;resize:none;"></textarea>' +
+        '<button type="button" onclick="waSubmit()" style="width:100%;background:#25D366;color:white;border:none;border-radius:20px;padding:10px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:Outfit,sans-serif;">💬 Enviar por WhatsApp</button>' +
+        '</div>';
+
+      msgs.innerHTML += formHtml;
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 600);
+
+    qr.style.display = 'none';
+  }
+
+  function waSubmit() {
+    var nombre   = (document.getElementById('waNombre')   || {value:''}).value.trim();
+    var telefono = (document.getElementById('waTelefono') || {value:''}).value.trim();
+    var email    = (document.getElementById('waEmail')    || {value:''}).value.trim();
+    var paneles  = (document.getElementById('waPaneles')  || document.getElementById('waPanelesMallas') || {value:''}).value.trim();
+    var zona     = (document.getElementById('waZona')     || {value:''}).value.trim();
+    var consulta = (document.getElementById('waConsulta') || {value:''}).value.trim();
+
+    if (!nombre || !telefono) {
+      alert('Por favor, introduce al menos tu nombre y teléfono.');
+      return;
+    }
+
+    var tipos = { limpieza:'Limpieza de paneles solares', precio:'Consulta de precio', mallas:'Mallas antiaves', otro:'Otra consulta' };
+
+    var text = '━━━━━━━━━━━━━━━━━━━━━━\n';
+    text += '📋 CONSULTA — ' + tipos[waCurrentOpt].toUpperCase() + '\n';
+    text += '━━━━━━━━━━━━━━━━━━━━━━\n';
+    text += '👤 Nombre: ' + nombre + '\n';
+    text += '📞 Teléfono: ' + telefono + '\n';
+    if (email)    text += '✉️ Email: ' + email + '\n';
+    if (paneles)  text += '🔢 Nº paneles: ' + paneles + '\n';
+    if (zona)     text += '📍 Zona: ' + zona + '\n';
+    if (consulta) text += '💬 Consulta: ' + consulta + '\n';
+    text += '━━━━━━━━━━━━━━━━━━━━━━';
+
+    window.open('https://wa.me/34621055475?text=' + encodeURIComponent(text), '_blank');
+  }
+
+  function waSend() {
+    var input = document.getElementById('waInput');
+    var text = input.value.trim();
+    if (!text) return;
+    var msgs = document.getElementById('waMessages');
+    msgs.innerHTML += '<div class="wa-msg" style="background:#DCF8C6;align-self:flex-end;border-radius:10px 0 10px 10px;margin-left:auto;">' + text + '<div class="wa-time">ahora</div></div>';
+    input.value = '';
+    setTimeout(function() {
+      msgs.innerHTML += '<div class="wa-msg">¡Gracias! Te atendemos ahora mismo 👇<div class="wa-time">ahora</div></div>';
+      msgs.innerHTML += '<a href="https://wa.me/34621055475?text=' + encodeURIComponent(text) + '" target="_blank" style="text-decoration:none;display:block;"><button type="button" style="width:100%;background:#25D366;color:white;border:none;border-radius:20px;padding:10px 14px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:Outfit,sans-serif;">💬 Continuar en WhatsApp</button></a>';
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 600);
+  }
+</script>
+</body>
+</html>
