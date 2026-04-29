@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Pago confirmado! – ManteniSolar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --navy:#1A3660; --green:#2E8B1F; --blue:#4BB5D4; --cream:#F2F6F3; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', sans-serif; background: var(--cream); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+    .card {
+      background: white; border-radius: 20px; padding: 56px 48px;
+      max-width: 560px; width: 100%; text-align: center;
+      box-shadow: 0 8px 40px rgba(26,54,96,0.12);
+    }
+    .check { font-size: 4rem; margin-bottom: 20px; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--navy); margin-bottom: 12px; }
+    .sub { color: #6B7280; font-size: 1rem; margin-bottom: 36px; line-height: 1.6; }
+    .step {
+      display: flex; align-items: flex-start; gap: 16px;
+      text-align: left; background: var(--cream); border-radius: 12px;
+      padding: 16px 20px; margin-bottom: 12px;
+    }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--navy); color: white;
+      font-weight: 700; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-content strong { display: block; color: var(--navy); font-size: 0.95rem; margin-bottom: 2px; }
+    .step-content p { font-size: 0.82rem; color: #6B7280; }
+    .btn-book {
+      display: block; background: var(--green); color: white;
+      padding: 16px 32px; border-radius: 50px; font-weight: 700;
+      font-size: 1rem; text-decoration: none; margin: 28px 0 16px;
+      transition: background 0.2s;
+    }
+    .btn-book:hover { background: #24701A; }
+    .btn-secondary {
+      display: block; color: var(--navy); font-size: 0.85rem;
+      text-decoration: none; opacity: 0.6;
+    }
+    .logo { height: 50px; margin: 0 auto 32px; }
+    .divider { border: none; border-top: 1px solid #E5E7EB; margin: 28px 0; }
+    @media (max-width: 560px) {
+      .card { padding: 36px 24px; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="./logo.jpg" alt="ManteniSolar" class="logo" />
+    <div class="check">✅</div>
+    <h1>¡Pago confirmado!</h1>
+    <p class="sub">Hemos recibido tu pago correctamente. Te hemos enviado un email de confirmación. Ahora solo queda elegir la fecha de tu visita.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Pago recibido ✓</strong>
+        <p>Tu pago ha sido procesado correctamente por Stripe.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>Elige tu fecha de visita</strong>
+        <p>Selecciona el día y hora que mejor te venga. Te confirmamos en el acto.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Nos vemos en tu instalación</strong>
+        <p>Nuestro técnico llegará puntual y con todo el material necesario.</p>
+      </div>
+    </div>
+
+    <a href="https://cal.com/mantenisolar" class="btn-book">📅 Elegir fecha de visita</a>
+    <a href="./index.html" class="btn-secondary">← Volver a la web</a>
+
+    <hr class="divider" />
+    <p style="font-size:0.78rem;color:#9CA3AF;">¿Tienes alguna duda? Escríbenos a <a href="mailto:info@mantenisolar.com" style="color:var(--green);">info@mantenisolar.com</a> o por WhatsApp al <a href="https://wa.me/34621055475" style="color:var(--green);">621 055 475</a></p>
+  </div>
+</body>
+</html>

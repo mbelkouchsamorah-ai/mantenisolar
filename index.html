@@ -435,6 +435,7 @@
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
       <a href="https://cal.com/mantenisolar/limpieza-puntual" target="_blank" style="background:white;color:var(--green);padding:14px 28px;border-radius:50px;font-weight:700;font-size:0.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">📅 Limpieza Puntual</a>
       <a href="https://cal.com/mantenisolar/plan-semestral" target="_blank" style="background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.6);padding:14px 28px;border-radius:50px;font-weight:700;font-size:0.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">📅 Plan Semestral</a>
+      <button type="button" onclick="openMallasModal()" style="background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.6);padding:14px 28px;border-radius:50px;font-weight:700;font-size:0.95rem;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:transform 0.2s;font-family:'Outfit',sans-serif;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">🦅 Solicitar presupuesto mallas</button>
     </div>
   </div>
 </section>
@@ -631,29 +632,26 @@
     <h3 style="margin-bottom:6px;">💳 Pago seguro</h3>
     <p class="modal-sub">Paga de forma segura con tarjeta. Tu reserva queda confirmada al instante.</p>
 
-    <div style="background:#F4F3FF;border:1.5px solid #635BFF;border-radius:12px;padding:20px 24px;margin-bottom:24px;">
+    <div style="background:#F4F3FF;border:1.5px solid #635BFF;border-radius:12px;padding:20px 24px;margin-bottom:20px;">
       <div style="font-size:.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Total a pagar</div>
       <div id="stripePrice" style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:#635BFF;">200€</div>
       <div id="stripeBreakdown" style="font-size:.8rem;color:var(--muted);margin-top:4px;">Limpieza Puntual · 10 paneles</div>
     </div>
 
-    <div style="background:var(--cream);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:.85rem;color:var(--muted);">
-      🔒 Pago 100% seguro procesado por <strong style="color:#635BFF;">Stripe</strong>. Aceptamos todas las tarjetas de crédito y débito.
+    <div style="background:var(--cream);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.82rem;color:var(--muted);">
+      🔒 Pago 100% seguro con <strong style="color:#635BFF;">Stripe</strong>. Tarjetas de crédito y débito. Después del pago elegirás la fecha de visita.
     </div>
 
-    <div id="stripeBtnWrapper">
-      <!-- Puntual base 10 paneles -->
-      <a id="stripeLinkPuntual" href="STRIPE_LINK_PUNTUAL" target="_blank" style="display:none;">
-        <button type="button" style="width:100%;background:#635BFF;color:white;padding:15px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:1rem;font-family:'Outfit',sans-serif;margin-bottom:12px;">
-          💳 Pagar <span id="stripeBtnPrice">200€</span> ahora
-        </button>
-      </a>
-      <!-- Extra panels via WhatsApp -->
-      <button type="button" id="stripeWaBtn" onclick="stripeViaWhatsApp()" style="width:100%;background:#25D366;color:white;padding:15px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:1rem;font-family:'Outfit',sans-serif;display:none;">
-        💬 Recibir enlace de pago por WhatsApp
-      </button>
+    <button type="button" id="stripePayBtn" onclick="processStripePayment()" style="width:100%;background:#635BFF;color:white;padding:15px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:1rem;font-family:'Outfit',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;transition:background 0.2s;">
+      💳 Pagar <span id="stripeBtnPrice">200€</span> ahora
+    </button>
+
+    <div id="stripeLoading" style="display:none;text-align:center;padding:16px;color:var(--muted);font-size:.9rem;">
+      ⏳ Conectando con Stripe...
     </div>
-    <p style="font-size:.75rem;color:var(--muted);text-align:center;margin-top:12px;">Al completar el pago recibirás confirmación y te contactaremos para la fecha.</p>
+    <div id="stripeError" style="display:none;background:#FEE2E2;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.82rem;color:#DC2626;"></div>
+
+    <p style="font-size:.75rem;color:var(--muted);text-align:center;margin-top:12px;">Al completar el pago recibirás un email de confirmación y podrás elegir la fecha de visita.</p>
   </div>
 </div>
 
@@ -687,52 +685,64 @@
     if (extra > 0) breakdown += ' (+' + extra + '€ adicionales)';
     document.getElementById('calcBreakdown').textContent = breakdown;
   }
-  // ── STRIPE CONFIG ──────────────────────────────────────
-  // Cuando tengas tu cuenta de Stripe, pega los Payment Links aquí:
-  const STRIPE_LINKS = {
-    puntual:   'STRIPE_LINK_PUNTUAL',   // ej: https://buy.stripe.com/xxxxx
-    semestral: 'STRIPE_LINK_SEMESTRAL'  // ej: https://buy.stripe.com/yyyyy
-  };
-  // ────────────────────────────────────────────────────────
+  // ── STRIPE + CLOUDFLARE WORKER ─────────────────────────
+  const WORKER_URL = 'https://mantenisolar-payments.mbelkouchsamorah.workers.dev';
 
   function openStripeModal() {
-    const { total, panels, extra } = calcTotal();
+    const { total, panels } = calcTotal();
     document.getElementById('stripePrice').textContent = total + '€';
     document.getElementById('stripeBreakdown').textContent = labels[currentService] + ' · ' + panels + ' panel' + (panels !== 1 ? 'es' : '');
     document.getElementById('stripeBtnPrice').textContent = total + '€';
-
-    const link = STRIPE_LINKS[currentService];
-    const hasRealLink = link && !link.includes('STRIPE_LINK');
-
-    const linkBtn = document.getElementById('stripeLinkPuntual');
-    const waBtn   = document.getElementById('stripeWaBtn');
-
-    if (hasRealLink) {
-      linkBtn.href = link;
-      linkBtn.style.display = 'block';
-      waBtn.style.display = 'none';
-    } else {
-      linkBtn.style.display = 'none';
-      waBtn.style.display = 'block';
-    }
-
+    document.getElementById('stripeError').style.display = 'none';
+    document.getElementById('stripeLoading').style.display = 'none';
+    document.getElementById('stripePayBtn').style.display = 'flex';
     document.getElementById('stripeModal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
+
   function closeStripeModal() {
     document.getElementById('stripeModal').style.display = 'none';
     document.body.style.overflow = '';
   }
-  function stripeViaWhatsApp() {
+
+  async function processStripePayment() {
     const { total, panels } = calcTotal();
-    const text = encodeURIComponent(
-      '¡Hola ManteniSolar! Quiero reservar el servicio:\n\n' +
-      '• Servicio: ' + labels[currentService] + '\n' +
-      '• Paneles: ' + panels + '\n' +
-      '• Total: ' + total + '€\n\n' +
-      'Por favor, enviadme el enlace de pago Stripe. ¡Gracias!'
-    );
-    window.open('https://wa.me/34621055475?text=' + text, '_blank');
+    const payBtn     = document.getElementById('stripePayBtn');
+    const loadingEl  = document.getElementById('stripeLoading');
+    const errorEl    = document.getElementById('stripeError');
+
+    // Show loading
+    payBtn.style.display = 'none';
+    loadingEl.style.display = 'block';
+    errorEl.style.display = 'none';
+
+    try {
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: total,
+          service: currentService,
+          panels: panels,
+          successUrl: window.location.origin + '/gracias.html',
+          cancelUrl: window.location.origin + '/#calculadora'
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Error al procesar el pago');
+      }
+    } catch (err) {
+      loadingEl.style.display = 'none';
+      payBtn.style.display = 'flex';
+      errorEl.style.display = 'block';
+      errorEl.textContent = '❌ ' + (err.message || 'Error de conexión. Inténtalo de nuevo.');
+    }
   }
   function sendWhatsApp() {
     const nombre = document.getElementById('formNombre').value.trim();
