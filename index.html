@@ -703,6 +703,9 @@
     loadingEl.style.display = 'block';
     errorEl.style.display = 'none';
 
+    // Save service to sessionStorage BEFORE redirecting (Stripe can strip query params)
+    try { sessionStorage.setItem('ms_servicio', currentService); } catch(e) {}
+
     try {
       const response = await fetch(WORKER_URL, {
         method: 'POST',
@@ -827,6 +830,46 @@
 </div>
 
 <script>
+  // ── MALLAS MODAL ─────────────────────────────────────
+  function openMallasModal() {
+    document.getElementById('mallasModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMallasModal() {
+    document.getElementById('mallasModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  function changeMallas(delta) {
+    var input = document.getElementById('mallasPaneles');
+    var val = parseInt(input.value) + delta;
+    if (val < 1) val = 1; if (val > 500) val = 500;
+    input.value = val;
+  }
+  function sendMallasWhatsApp() {
+    var nombre   = document.getElementById('mallasNombre').value.trim();
+    var telefono = document.getElementById('mallasTelefono').value.trim();
+    var paneles  = document.getElementById('mallasPaneles').value;
+    var zona     = document.getElementById('mallasZona').value.trim();
+    var info     = document.getElementById('mallasInfo').value.trim();
+    if (!nombre || !telefono || !zona) {
+      alert('Por favor, rellena los campos obligatorios: nombre, teléfono y zona.');
+      return;
+    }
+    var text = '🦅 SOLICITUD DE PRESUPUESTO — MALLAS ANTIAVES\n';
+    text += '━━━━━━━━━━━━━━━━━━━━━━\n';
+    text += '👤 Nombre: ' + nombre + '\n';
+    text += '📞 Teléfono: ' + telefono + '\n';
+    text += '🔢 Nº de paneles: ' + paneles + ' paneles\n';
+    text += '📍 Zona: ' + zona + '\n';
+    if (info) text += '💬 Info adicional: ' + info + '\n';
+    text += '━━━━━━━━━━━━━━━━━━━━━━';
+    window.open('https://wa.me/34621055475?text=' + encodeURIComponent(text), '_blank');
+  }
+  document.getElementById('mallasModal').addEventListener('click', function(e) {
+    if (e.target === this) closeMallasModal();
+  });
+  // ─────────────────────────────────────────────────────
+
   var waChatOpen = false;
   function toggleWaChat() {
     waChatOpen = !waChatOpen;
