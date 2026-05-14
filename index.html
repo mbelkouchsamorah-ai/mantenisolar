@@ -602,9 +602,20 @@
       <label style="display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:6px;">Zona / Municipio *</label>
       <input type="text" id="mallasZona" placeholder="Ej: Alcalá de Henares, Pozuelo..." style="width:100%;border:1.5px solid #d1d5db;border-radius:10px;padding:11px 14px;font-family:Outfit,sans-serif;font-size:.95rem;color:var(--navy);transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='#d1d5db'" />
     </div>
-    <div class="form-group" style="margin-bottom:20px;">
+    <div class="form-group" style="margin-bottom:14px;">
+      <label style="display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:6px;">¿Cómo están distribuidos los paneles? *</label>
+      <input type="text" id="mallasDistribucion" placeholder="Ej: todos juntos, 6 en un tejado y 4 en otro..." style="width:100%;border:1.5px solid #d1d5db;border-radius:10px;padding:11px 14px;font-family:Outfit,sans-serif;font-size:.95rem;color:var(--navy);transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='#d1d5db'" />
+    </div>
+    <div class="form-group" style="margin-bottom:14px;">
+      <label style="display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:6px;">Tipo de tejado *</label>
+      <input type="text" id="mallasTejado" placeholder="Ej: inclinado con teja, plano, pérgola..." style="width:100%;border:1.5px solid #d1d5db;border-radius:10px;padding:11px 14px;font-family:Outfit,sans-serif;font-size:.95rem;color:var(--navy);transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='#d1d5db'" />
+    </div>
+    <div class="form-group" style="margin-bottom:14px;">
       <label style="display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:6px;">Información adicional <span style="font-weight:400;color:var(--muted);">(opcional)</span></label>
-      <textarea id="mallasInfo" placeholder="Tipo de tejado, acceso difícil, aves presentes..." rows="3" style="width:100%;border:1.5px solid #d1d5db;border-radius:10px;padding:11px 14px;font-family:Outfit,sans-serif;font-size:.9rem;color:var(--navy);resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='#d1d5db'"></textarea>
+      <textarea id="mallasInfo" placeholder="Ej: acceso difícil, muchas palomas, paneles en dos tejados distintos..." rows="3" style="width:100%;border:1.5px solid #d1d5db;border-radius:10px;padding:11px 14px;font-family:Outfit,sans-serif;font-size:.9rem;color:var(--navy);resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='#d1d5db'"></textarea>
+    </div>
+    <div style="background:#EAF6EA;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.82rem;color:var(--green);font-weight:500;">
+      📸 Después de enviar, adjunta fotos de tu instalación en el chat de WhatsApp para un presupuesto más preciso.
     </div>
     <button class="btn-whatsapp" onclick="sendMallasWhatsApp()">💬 Enviar solicitud por WhatsApp</button>
     <p style="font-size:.75rem;color:var(--muted);text-align:center;margin-top:10px;">Te redirigiremos a WhatsApp con toda la información ya incluida.</p>
@@ -864,18 +875,34 @@
     var paneles  = document.getElementById('mallasPaneles').value;
     var zona     = document.getElementById('mallasZona').value.trim();
     var info     = document.getElementById('mallasInfo').value.trim();
+    var tejado   = document.getElementById('mallasTejado').value.trim();
+    var distrib  = document.getElementById('mallasDistribucion').value.trim();
+
     if (!nombre || !telefono || !zona) {
       alert('Por favor, rellena los campos obligatorios: nombre, teléfono y zona.');
       return;
     }
+    if (waCurrentOpt !== 'mallas' && !distrib && !tejado) {
+      // only validate for mallas
+    }
+    var distribVal = document.getElementById('mallasDistribucion') ? document.getElementById('mallasDistribucion').value.trim() : '';
+    var tejadoVal  = document.getElementById('mallasTejado') ? document.getElementById('mallasTejado').value.trim() : '';
+    if (document.getElementById('mallasDistribucion') && (!distribVal || !tejadoVal)) {
+      alert('Por favor, indica cómo están distribuidos los paneles y el tipo de tejado.');
+      return;
+    }
+
     var text = '🦅 SOLICITUD DE PRESUPUESTO — MALLAS ANTIAVES\n';
     text += '━━━━━━━━━━━━━━━━━━━━━━\n';
     text += '👤 Nombre: ' + nombre + '\n';
     text += '📞 Teléfono: ' + telefono + '\n';
     text += '🔢 Nº de paneles: ' + paneles + ' paneles\n';
     text += '📍 Zona: ' + zona + '\n';
-    if (info) text += '💬 Info adicional: ' + info + '\n';
-    text += '━━━━━━━━━━━━━━━━━━━━━━';
+    if (distrib) text += '📐 Distribución: ' + distrib + '\n';
+    if (tejado)  text += '🏠 Tejado: ' + tejado + '\n';
+    if (info)    text += '💬 Info adicional: ' + info + '\n';
+    text += '━━━━━━━━━━━━━━━━━━━━━━\n';
+    text += '📸 A continuación te envío fotos de la instalación.';
     window.open('https://wa.me/34621055475?text=' + encodeURIComponent(text), '_blank');
   }
   document.getElementById('mallasModal').addEventListener('click', function(e) {
@@ -922,7 +949,9 @@
       }
       if (opt === 'mallas') {
         formHtml += '<input id="waPanelesMallas" type="number" placeholder="Nº de paneles solares *" min="1" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />' +
-          '<input id="waZona" type="text" placeholder="Municipio / Zona *" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />';
+          '<input id="waZona" type="text" placeholder="Municipio / Zona *" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />' +
+          '<input id="waDistribucion" type="text" placeholder="Distribución: ej. todos juntos, 6+4 en dos zonas..." style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />' +
+          '<input id="waTejado" type="text" placeholder="Tipo de tejado: ej. inclinado teja, plano, pérgola..." style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:8px;font-family:Outfit,sans-serif;" />';
       }
 
       formHtml += '<textarea id="waConsulta" placeholder="' + (opt === 'otro' ? 'Tu consulta *' : 'Información adicional (opcional)') + '" rows="2" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:.82rem;margin-bottom:10px;font-family:Outfit,sans-serif;resize:none;"></textarea>' +
@@ -942,6 +971,8 @@
     var email    = (document.getElementById('waEmail')    || {value:''}).value.trim();
     var paneles  = (document.getElementById('waPaneles')  || document.getElementById('waPanelesMallas') || {value:''}).value.trim();
     var zona     = (document.getElementById('waZona')     || {value:''}).value.trim();
+    var distrib  = (document.getElementById('waDistribucion') || {value:''}).value.trim();
+    var tejado   = (document.getElementById('waTejado')   || {value:''}).value.trim();
     var consulta = (document.getElementById('waConsulta') || {value:''}).value.trim();
 
     if (!nombre || !telefono) {
@@ -959,7 +990,10 @@
     if (email)    text += '✉️ Email: ' + email + '\n';
     if (paneles)  text += '🔢 Nº paneles: ' + paneles + '\n';
     if (zona)     text += '📍 Zona: ' + zona + '\n';
+    if (distrib)  text += '📐 Distribución: ' + distrib + '\n';
+    if (tejado)   text += '🏠 Tejado: ' + tejado + '\n';
     if (consulta) text += '💬 Consulta: ' + consulta + '\n';
+    if (waCurrentOpt === 'mallas') text += '📸 A continuación te envío fotos de la instalación.\n';
     text += '━━━━━━━━━━━━━━━━━━━━━━';
 
     window.open('https://wa.me/34621055475?text=' + encodeURIComponent(text), '_blank');
