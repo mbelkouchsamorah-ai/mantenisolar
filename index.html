@@ -720,6 +720,7 @@
 
   async function processStripePayment() {
     const { total, panels } = calcTotal();
+    const totalIVA = total + Math.round(total * 0.21);
     const payBtn     = document.getElementById('stripePayBtn');
     const loadingEl  = document.getElementById('stripeLoading');
     const errorEl    = document.getElementById('stripeError');
