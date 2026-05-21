@@ -338,8 +338,7 @@
   <div class="container">
     <div class="hero-content">
       <h1>Tus paneles solares,<br>al <span>máximo rendimiento</span></h1>
-      <p>Limpieza, revisión preventiva y mantenimiento profesional de tu instalación solar en la Comunidad de Madrid.</p>
-      <p>Más producción, más ahorro.</p>
+      <p>Limpieza profesional y mantenimiento preventivo de instalaciones fotovoltaicas en la Comunidad de Madrid. Más producción, más ahorro.</p>
       <div class="hero-btns">
         <a href="#calculadora" class="btn-primary">☀ Calcular mi precio</a>
       </div>
@@ -392,7 +391,6 @@
           <li>Revisión de automáticos CC/CA</li>
           <li>Informe fotográfico antes/después</li>
           <li>Detección de anomalías incluida</li>
-          <li>Comprobación de fijaciones y estructura de sujeción</li>
         </ul>
         <a href="#calculadora" class="btn-card">Calcular mi precio</a>
       </div>
@@ -409,7 +407,6 @@
           <li>Informe fotográfico ambas visitas</li>
           <li>Prioridad en la agenda</li>
           <li>Detección de anomalías incluida</li>
-          <li>Comprobación de fijaciones y estructura de sujeción</li>
         </ul>
         <a href="#calculadora" class="btn-card">Calcular mi precio</a>
       </div>
@@ -740,7 +737,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: total,
+          amount: totalIVA,
           service: currentService,
           panels: panels,
           successUrl: window.location.origin + '/gracias.html?servicio=' + currentService,
