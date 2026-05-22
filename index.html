@@ -738,7 +738,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: totalIVA,
+          amount: total,
           service: currentService,
           panels: panels,
           successUrl: window.location.origin + '/gracias.html?servicio=' + currentService,
