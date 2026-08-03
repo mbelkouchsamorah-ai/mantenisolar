@@ -955,6 +955,27 @@
     if (info)    text += '💬 Info adicional: ' + info + '\n';
     text += '━━━━━━━━━━━━━━━━━━━━━━\n';
     text += '📸 A continuación te envío fotos de la instalación.';
+
+    // Register in Google Sheets
+    var mallasPayload = {
+      servicio: 'Mallas Antiaves',
+      paneles: paneles,
+      precio: '',
+      nombre: nombre,
+      telefono: telefono,
+      email: '',
+      direccion: zona,
+      fechaPreferida: '',
+      notas: [
+        distrib ? 'Distribución: ' + distrib : '',
+        tejado ? 'Tejado: ' + tejado : '',
+        info ? 'Info: ' + info : ''
+      ].filter(Boolean).join(' | ')
+    };
+    try {
+      fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(mallasPayload) });
+    } catch (e) {}
+
     window.open('https://wa.me/34611528489?text=' + encodeURIComponent(text), '_blank');
   }
   document.getElementById('mallasModal').addEventListener('click', function(e) {
@@ -1052,6 +1073,27 @@
     if (consulta) text += '💬 Consulta: ' + consulta + '\n';
     if (waCurrentOpt === 'mallas') text += '📸 A continuación te envío fotos de la instalación.\n';
     text += '━━━━━━━━━━━━━━━━━━━━━━';
+
+    // Register in Google Sheets
+    var tipos2 = { limpieza:'Limpieza de paneles solares', precio:'Consulta de precio', mallas:'Mallas antiaves', otro:'Otra consulta' };
+    var waPayload = {
+      servicio: tipos2[waCurrentOpt] || waCurrentOpt,
+      paneles: paneles,
+      precio: '',
+      nombre: nombre,
+      telefono: telefono,
+      email: email,
+      direccion: zona,
+      fechaPreferida: '',
+      notas: [
+        distrib ? 'Distribución: ' + distrib : '',
+        tejado ? 'Tejado: ' + tejado : '',
+        consulta ? 'Consulta: ' + consulta : ''
+      ].filter(Boolean).join(' | ')
+    };
+    try {
+      fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(waPayload) });
+    } catch (e) {}
 
     window.open('https://wa.me/34611528489?text=' + encodeURIComponent(text), '_blank');
   }
